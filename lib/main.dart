@@ -19,16 +19,17 @@ class TaskApp extends StatelessWidget {
     return BlocProvider(
       //https://youtu.be/PD0eAXLd5ls?t=1169
       //adding the task manually for now
-      create: (context) => TasksBloc()
-        ..add(AddTask(
-          task: Task(title: 'Task1'),
-        )),
+      create: (context) => TasksBloc(),
+      //https://youtu.be/PD0eAXLd5ls?t=2070
+      // ..add(AddTask(
+      //   task: Task(title: 'Task1'),
+      // )),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: TasksScreen(),
+        home: const TasksScreen(),
       ),
     );
   }

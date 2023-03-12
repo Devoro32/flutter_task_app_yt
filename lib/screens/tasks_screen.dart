@@ -1,42 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_app/models/tasks.dart';
 import 'package:tasks_app/widgets/tasks_list.dart';
+import 'package:tasks_app/screens/add_task_screen.dart';
 
 import '../blocs/bloc_export.dart';
 
-class TasksScreen extends StatelessWidget {
-  TasksScreen({super.key});
+//https://youtu.be/PD0eAXLd5ls?t=1710
+class TasksScreen extends StatefulWidget {
+  const TasksScreen({super.key});
 
+  @override
+  State<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
   //https://youtu.be/PD0eAXLd5ls?t=1190
-  TextEditingController titleController = TextEditingController();
-
   void _addTask(BuildContext context) {
     showModalBottomSheet(
+      //https://www.kindacode.com/article/flutter-bottom-sheet-examples/#Modal_Bottom_Sheet_with_Text_Fields_inside
+      isScrollControlled: true,
       context: context,
       builder: (context) => SingleChildScrollView(
         child: Container(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding: EdgeInsets.only(
+              //adding  +15 so that the keyboard doesn't cover the text field
+              bottom: MediaQuery.of(context).viewInsets.bottom + 15),
           child: Container(
             padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const Text(
-                  'Add Task',
-                  style: TextStyle(fontSize: 24),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextField(
-                  controller: titleController,
-                  decoration: const InputDecoration(
-                    label: Text('Title'),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ],
-            ),
+            child: const AddTaskScreen(),
           ),
         ),
       ),
@@ -54,7 +45,7 @@ class TasksScreen extends StatelessWidget {
             title: const Text('Tasks App'),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () => _addTask(context),
                 icon: const Icon(Icons.add),
               )
             ],

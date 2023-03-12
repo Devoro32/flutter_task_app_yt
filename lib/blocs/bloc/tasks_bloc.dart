@@ -23,7 +23,33 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     ));
   }
 
-  void _onUpdateTask(UpdateTask event, Emitter<TasksState> emit) {}
+  void _onUpdateTask(UpdateTask event, Emitter<TasksState> emit) {
+    //https://youtu.be/PD0eAXLd5ls?t=1783
+    final state = this.state;
+    final task = event.task;
 
-  void _onDeleteTask(DeleteTask event, Emitter<TasksState> emit) {}
+    //https://youtu.be/PD0eAXLd5ls?t=1914
+    final int index = state.allTasks.indexOf(task);
+
+    List<Task> allTasks = List.from(state.allTasks)..remove(task);
+    task.isDone == false
+        //https://youtu.be/PD0eAXLd5ls?t=1914
+        // ? allTasks.add(task.copyWith(isDone: true))
+        // : allTasks.add(task.copyWith(isDone: false));
+        ? allTasks.insert(index, task.copyWith(isDone: true))
+        : allTasks.insert(index, task.copyWith(isDone: false));
+
+    emit(TasksState(allTasks: allTasks));
+  }
+
+  void _onDeleteTask(DeleteTask event, Emitter<TasksState> emit) {
+    //https://youtu.be/PD0eAXLd5ls?t=1985
+    final state = this.state;
+
+    emit(
+      TasksState(
+        allTasks: List.from(state.allTasks)..remove(event.task),
+      ),
+    );
+  }
 }
