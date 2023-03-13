@@ -10,6 +10,16 @@ class TaskTile extends StatelessWidget {
   }) : super(key: key);
 
   final Task task;
+  //https://youtu.be/PD0eAXLd5ls?t=3575
+  void _removeOrDeleteTasks(BuildContext context, Task task) {
+    task.isDeleted!
+        ? context.read<TasksBloc>().add(DeleteTask(
+              task: task,
+            ))
+        : context.read<TasksBloc>().add(RemoveTask(
+              task: task,
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +33,22 @@ class TaskTile extends StatelessWidget {
       ),
       trailing: Checkbox(
         value: task.isDone,
-        onChanged: (value) {
-          context.read<TasksBloc>().add(UpdateTask(task: task));
-        },
+        onChanged:
+            //https://youtu.be/PD0eAXLd5ls?t=3921
+            task.isDeleted == false
+                ? (value) {
+                    context.read<TasksBloc>().add(UpdateTask(task: task));
+                  }
+                : null,
       ),
-      onLongPress: () => context.read<TasksBloc>().add(
-            DeleteTask(
-              task: task,
-            ),
-          ),
+      onLongPress: () =>
+          //https://youtu.be/PD0eAXLd5ls?t=3575
+          //  context.read<TasksBloc>().add(
+          //       DeleteTask(
+          //         task: task,
+          //       ),
+          //     ),
+          _removeOrDeleteTasks(context, task),
     );
   }
 }

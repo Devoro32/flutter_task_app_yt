@@ -1,6 +1,5 @@
 //https://youtu.be/PD0eAXLd5ls?t=879
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tasks_app/models/tasks.dart';
 import 'package:tasks_app/blocs/bloc_export.dart';
@@ -15,6 +14,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     on<AddTask>(_onAddTask);
     on<UpdateTask>(_onUpdateTask);
     on<DeleteTask>(_onDeleteTask);
+    on<RemoveTask>(_onRemoveTask);
   }
 
   void _onAddTask(AddTask event, Emitter<TasksState> emit) {
@@ -22,6 +22,9 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
 
     emit(TasksState(
       allTasks: List.from(state.allTasks)..add(event.task),
+      //https://youtu.be/PD0eAXLd5ls?t=3770
+      //ensure that when you add tasks, it is not removed from the bin
+      removedTasks: state.removedTasks,
     ));
   }
 
@@ -41,7 +44,12 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
         ? allTasks.insert(index, task.copyWith(isDone: true))
         : allTasks.insert(index, task.copyWith(isDone: false));
 
-    emit(TasksState(allTasks: allTasks));
+    emit(TasksState(
+      allTasks: allTasks,
+      //https://youtu.be/PD0eAXLd5ls?t=3770
+      //ensure that when you add tasks, it is not removed from the bin
+      removedTasks: state.removedTasks,
+    ));
   }
 
   void _onDeleteTask(DeleteTask event, Emitter<TasksState> emit) {
@@ -50,7 +58,26 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
 
     emit(
       TasksState(
+        //https://youtu.be/PD0eAXLd5ls?t=3839
+        // allTasks: List.from(state.allTasks)..remove(event.task),
+        allTasks: state.allTasks,
+        removedTasks: List.from(state.removedTasks)..remove(event.task),
+      ),
+    );
+  }
+
+//https://youtu.be/PD0eAXLd5ls?t=3380
+  void _onRemoveTask(RemoveTask event, Emitter<TasksState> emit) {
+    //https://youtu.be/PD0eAXLd5ls?t=1985
+    final state = this.state;
+
+    emit(
+      TasksState(
         allTasks: List.from(state.allTasks)..remove(event.task),
+        removedTasks: List.from(state.removedTasks)
+          ..add(
+            event.task.copyWith(isDeleted: true),
+          ),
       ),
     );
   }

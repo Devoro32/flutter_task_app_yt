@@ -3,6 +3,7 @@ import 'package:tasks_app/blocs/bloc_export.dart';
 import 'package:tasks_app/models/tasks.dart';
 import 'package:tasks_app/screens/tasks_screen.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:tasks_app/services/app_router.dart';
 
 void main() async {
   //! depreciated BlocOverrides.runZoned: https://stackoverflow.com/questions/73685907/info-runzoned-is-deprecated-and-shouldnt-be-used-this-will-be-removed-in-v9
@@ -11,7 +12,7 @@ void main() async {
   //https://stackoverflow.com/questions/68911012/hydrated-bloc-the-parameter-storagedirectory-is-required
 
   //this allows for local storage on the phone
-
+//todo: Storage is not working. If you refresh, it then disappears
 //https://youtu.be/PD0eAXLd5ls?t=2239
   WidgetsFlutterBinding.ensureInitialized();
   HydratedBloc.storage = await HydratedStorage.build(
@@ -22,11 +23,14 @@ void main() async {
   //   storageDirectory: await getApplicationDocumentsDirectory(),
   // );
 
-  runApp(const TaskApp());
+  runApp(TaskApp(
+    appRouter: AppRouter(),
+  ));
 }
 
 class TaskApp extends StatelessWidget {
-  const TaskApp({super.key});
+  const TaskApp({required this.appRouter, super.key});
+  final AppRouter appRouter;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +48,8 @@ class TaskApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: const TasksScreen(),
+        //https://youtu.be/PD0eAXLd5ls?t=3107
+        onGenerateRoute: appRouter.onGenerateRoute,
       ),
     );
   }
