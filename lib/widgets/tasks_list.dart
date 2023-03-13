@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_app/models/tasks.dart';
 import 'package:tasks_app/blocs/bloc_export.dart';
+import 'package:tasks_app/widgets/task_tile.dart';
 
 class TasksList extends StatelessWidget {
   const TasksList({
@@ -17,20 +18,8 @@ class TasksList extends StatelessWidget {
           itemCount: taskLists.length,
           itemBuilder: (context, index) {
             var task = taskLists[index];
-            return ListTile(
-              title: Text(task.title),
-              trailing: Checkbox(
-                value: task.isDone,
-                onChanged: (value) {
-                  context.read<TasksBloc>().add(UpdateTask(task: task));
-                },
-              ),
-              onLongPress: () => context.read<TasksBloc>().add(
-                    DeleteTask(
-                      task: task,
-                    ),
-                  ),
-            );
+            //https://youtu.be/PD0eAXLd5ls?t=2586
+            return TaskTile(task: task);
           }),
     );
   }

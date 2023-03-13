@@ -3,13 +3,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tasks_app/models/tasks.dart';
+import 'package:tasks_app/blocs/bloc_export.dart';
 
 part 'tasks_event.dart';
 part 'tasks_state.dart';
 
 //https://youtu.be/PD0eAXLd5ls?t=960
-class TasksBloc extends Bloc<TasksEvent, TasksState> {
-  TasksBloc() : super(TasksState()) {
+//https://youtu.be/PD0eAXLd5ls?t=2110
+class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
+  TasksBloc() : super(const TasksState()) {
     on<AddTask>(_onAddTask);
     on<UpdateTask>(_onUpdateTask);
     on<DeleteTask>(_onDeleteTask);
@@ -51,5 +53,17 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         allTasks: List.from(state.allTasks)..remove(event.task),
       ),
     );
+  }
+
+//https://youtu.be/PD0eAXLd5ls?t=2138
+  @override
+  TasksState? fromJson(Map<String, dynamic> json) {
+    return TasksState.fromMap(json);
+  }
+
+//https://youtu.be/PD0eAXLd5ls?t=2138
+  @override
+  Map<String, dynamic>? toJson(TasksState state) {
+    return state.toMap();
   }
 }
