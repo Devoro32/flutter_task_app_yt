@@ -29,7 +29,7 @@ class MyDrawer extends StatelessWidget {
             BlocBuilder<TasksBloc, TasksState>(
               builder: (context, state) {
                 return GestureDetector(
-                  onTap: () => Navigator.of(context).pushNamed(
+                  onTap: () => Navigator.of(context).pushReplacementNamed(
                     TasksScreen.id,
                   ),
                   child: ListTile(
@@ -44,7 +44,7 @@ class MyDrawer extends StatelessWidget {
             BlocBuilder<TasksBloc, TasksState>(
               builder: (context, state) {
                 return GestureDetector(
-                  onTap: () => Navigator.of(context).pushNamed(
+                  onTap: () => Navigator.of(context).pushReplacementNamed(
                     RecycleBin.id,
                   ),
                   child: ListTile(
@@ -55,9 +55,28 @@ class MyDrawer extends StatelessWidget {
                 );
               },
             ),
+            //https://youtu.be/PD0eAXLd5ls?t=3966
+            BlocBuilder<SwitchBloc, SwitchState>(
+              builder: (context, state) {
+                return Switch(
+                    //https://youtu.be/PD0eAXLd5ls?t=4395
+                    value: state.switchValue,
+                    onChanged: (newValue) {
+                      // setState(() {
+                      //   switchValue = newValue;
+                      // });
+                      newValue
+                          ? context.read<SwitchBloc>().add(SwitchOnEvent())
+                          : context.read<SwitchBloc>().add(SwitchOffEvent());
+                    });
+              },
+            )
           ],
         ),
       ),
     );
   }
+
+  //https://youtu.be/PD0eAXLd5ls?t=4103
+
 }

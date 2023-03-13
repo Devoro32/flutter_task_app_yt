@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasks_app/blocs/bloc/tasks_bloc.dart';
+import 'package:tasks_app/blocs/bloc_export.dart';
 import 'package:tasks_app/models/tasks.dart';
 import 'package:tasks_app/services/guid_gen.dart';
 
