@@ -63,6 +63,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
       //ensure that when you add tasks, it is not removed from the bin
       removedTasks: state.removedTasks,
       //https://youtu.be/PD0eAXLd5ls?t=5401
+      //! why is this note state.completedTasks?
       completedTasks: completedTasks,
       favoriteTasks: state.favoriteTasks,
     ));

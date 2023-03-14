@@ -13,14 +13,55 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //https://youtu.be/PD0eAXLd5ls?t=5605
+    //https://youtu.be/PD0eAXLd5ls?t=5992
     return Expanded(
-      child: ListView.builder(
-          itemCount: taskLists.length,
-          itemBuilder: (context, index) {
-            var task = taskLists[index];
-            //https://youtu.be/PD0eAXLd5ls?t=2586
-            return TaskTile(task: task);
-          }),
+      child: SingleChildScrollView(
+        child: ExpansionPanelList.radio(
+            children: taskLists
+                .map(
+                  (task) => ExpansionPanelRadio(
+                    value: task.id,
+                    headerBuilder: (context, isOpen) => TaskTile(task: task),
+                    //https://youtu.be/PD0eAXLd5ls?t=5865
+                    body:
+                        //move the text to the left
+                        ListTile(
+                      title: SelectableText.rich(
+                        TextSpan(children: [
+                          const TextSpan(
+                            text: 'Task:\n',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(text: task.title),
+                          const TextSpan(
+                            text: '\nDescription:\n',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(text: task.description),
+                        ]),
+                      ),
+                    ),
+                  ),
+                )
+                .toList()),
+      ),
     );
   }
 }
+
+    //https://youtu.be/PD0eAXLd5ls?t=5605
+
+// Expanded(
+//       child: ListView.builder(
+//           itemCount: taskLists.length,
+//           itemBuilder: (context, index) {
+//             var task = taskLists[index];
+//             //https://youtu.be/PD0eAXLd5ls?t=2586
+//             return TaskTile(task: task);
+//           }),
+//     );

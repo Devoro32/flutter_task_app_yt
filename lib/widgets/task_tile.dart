@@ -26,6 +26,8 @@ class TaskTile extends StatelessWidget {
     return ListTile(
       title: Text(
         task.title,
+        //https://youtu.be/PD0eAXLd5ls?t=6097
+        overflow: TextOverflow.ellipsis,
         //https://youtu.be/PD0eAXLd5ls?t=2550
         //when task is done put a line through
         style: TextStyle(
