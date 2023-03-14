@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_app/blocs/bloc_export.dart';
 import 'package:tasks_app/models/tasks.dart';
-import 'package:tasks_app/screens/tasks_screen.dart';
+import 'package:tasks_app/screens/tabs_screen.dart';
+import 'package:tasks_app/screens/pending_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tasks_app/services/app_router.dart';
 import 'package:tasks_app/services/app_theme.dart';
@@ -62,7 +63,7 @@ class TaskApp extends StatelessWidget {
             // theme: ThemeData(
             //   primarySwatch: Colors.blue,
             // ),
-            home: const TasksScreen(),
+            home: TabsScreen(),
             //https://youtu.be/PD0eAXLd5ls?t=3107
             onGenerateRoute: appRouter.onGenerateRoute,
           );

@@ -21,10 +21,14 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     late final state = this.state;
 
     emit(TasksState(
-      allTasks: List.from(state.allTasks)..add(event.task),
+      pendingTasks: List.from(state.pendingTasks)..add(event.task),
       //https://youtu.be/PD0eAXLd5ls?t=3770
       //ensure that when you add tasks, it is not removed from the bin
       removedTasks: state.removedTasks,
+
+      //https://youtu.be/PD0eAXLd5ls?t=5256
+      completedTasks: state.completedTasks,
+      favoriteTasks: state.favoriteTasks,
     ));
   }
 
@@ -33,22 +37,34 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     final state = this.state;
     final task = event.task;
 
-    //https://youtu.be/PD0eAXLd5ls?t=1914
-    final int index = state.allTasks.indexOf(task);
-
-    List<Task> allTasks = List.from(state.allTasks)..remove(task);
+    List<Task> pendingTasks = state.pendingTasks;
+    List<Task> completedTasks = state.completedTasks;
     task.isDone == false
         //https://youtu.be/PD0eAXLd5ls?t=1914
-        // ? allTasks.add(task.copyWith(isDone: true))
-        // : allTasks.add(task.copyWith(isDone: false));
-        ? allTasks.insert(index, task.copyWith(isDone: true))
-        : allTasks.insert(index, task.copyWith(isDone: false));
+        // ? pendingTasks.add(task.copyWith(isDone: true))
+        // : pendingTasks.add(task.copyWith(isDone: false));
+        //https://youtu.be/PD0eAXLd5ls?t=5335
+        ? {
+            pendingTasks = List.from(pendingTasks)..remove(task),
+            completedTasks = List.from(completedTasks)
+              ..insert(0, task.copyWith(isDone: true)),
+          }
+        : {
+            //https://youtu.be/PD0eAXLd5ls?t=5380
+
+            completedTasks = List.from(completedTasks)..remove(task),
+            pendingTasks = List.from(pendingTasks)
+              ..insert(0, task.copyWith(isDone: false)),
+          };
 
     emit(TasksState(
-      allTasks: allTasks,
+      pendingTasks: pendingTasks,
       //https://youtu.be/PD0eAXLd5ls?t=3770
       //ensure that when you add tasks, it is not removed from the bin
       removedTasks: state.removedTasks,
+      //https://youtu.be/PD0eAXLd5ls?t=5401
+      completedTasks: completedTasks,
+      favoriteTasks: state.favoriteTasks,
     ));
   }
 
@@ -59,9 +75,12 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     emit(
       TasksState(
         //https://youtu.be/PD0eAXLd5ls?t=3839
-        // allTasks: List.from(state.allTasks)..remove(event.task),
-        allTasks: state.allTasks,
+        // pendingTasks: List.from(state.pendingTasks)..remove(event.task),
+        pendingTasks: state.pendingTasks,
         removedTasks: List.from(state.removedTasks)..remove(event.task),
+        //https://youtu.be/PD0eAXLd5ls?t=5411
+        completedTasks: state.completedTasks,
+        favoriteTasks: state.favoriteTasks,
       ),
     );
   }
@@ -73,7 +92,10 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
 
     emit(
       TasksState(
-        allTasks: List.from(state.allTasks)..remove(event.task),
+        pendingTasks: List.from(state.pendingTasks)..remove(event.task),
+        //https://youtu.be/PD0eAXLd5ls?t=5411
+        completedTasks: List.from(state.completedTasks)..remove(event.task),
+        favoriteTasks: List.from(state.favoriteTasks)..remove(event.task),
         removedTasks: List.from(state.removedTasks)
           ..add(
             event.task.copyWith(isDeleted: true),
