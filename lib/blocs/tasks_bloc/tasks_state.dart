@@ -11,11 +11,13 @@ class TasksState extends Equatable {
   //https://youtu.be/PD0eAXLd5ls?t=5184
   final List<Task> favoriteTasks;
   final List<Task> completedTasks;
+  //final List<Task> markFavoriteOrUnfavoriteTask;
   const TasksState({
     this.pendingTasks = const <Task>[],
     this.removedTasks = const <Task>[],
     this.completedTasks = const <Task>[],
     this.favoriteTasks = const <Task>[],
+    //this.markFavoriteOrUnfavoriteTask = const <Task>[],
   });
 
   @override
@@ -24,6 +26,7 @@ class TasksState extends Equatable {
         completedTasks,
         favoriteTasks,
         removedTasks,
+        //  markFavoriteOrUnfavoriteTask,
       ];
 
 //https://youtu.be/PD0eAXLd5ls?t=2138
@@ -34,6 +37,8 @@ class TasksState extends Equatable {
       'completedTasks': completedTasks.map((x) => x.toMap()).toList(),
       'favoriteTasks': favoriteTasks.map((x) => x.toMap()).toList(),
       'removedTasks': removedTasks.map((x) => x.toMap()).toList(),
+      // 'markFavoriteOrUnfavoriteTask':
+      //     markFavoriteOrUnfavoriteTask.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -60,6 +65,11 @@ class TasksState extends Equatable {
         ),
         //https://youtu.be/PD0eAXLd5ls?t=5230
       ),
+      // markFavoriteOrUnfavoriteTask: List<Task>.from(
+      //   (map['markFavoriteOrUnfavoriteTask'] as List<int>).map<Task>(
+      //     (x) => Task.fromMap(x as Map<String, dynamic>),
+      //   ),
+      // ),
     );
   }
 }

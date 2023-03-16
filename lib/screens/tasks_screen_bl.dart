@@ -10,9 +10,21 @@ class TasksScreen extends StatelessWidget {
 //https://youtu.be/PD0eAXLd5ls?t=570
 //temporary  task list
   List<Task> tasksList = [
-    Task(title: 'Task 1', description: ' text description', id: '1'),
-    Task(title: 'Task 2', description: ' text description', id: '2'),
-    Task(title: 'Task 3', description: ' text description', id: '3'),
+    Task(
+        title: 'Task 1',
+        description: ' text description',
+        id: '1',
+        date: 'yymmdd'),
+    Task(
+        title: 'Task 2',
+        description: ' text description',
+        id: '2',
+        date: 'yymmdd'),
+    Task(
+        title: 'Task 3',
+        description: ' text description',
+        id: '3',
+        date: 'yymmdd'),
   ];
 
   @override
